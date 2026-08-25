@@ -33,8 +33,3 @@ rm -rf package/small-package/qbittorrent
 rm -rf package/small-package/tor
 rm -rf package/small-package/ua2f
 rm -rf package/small-package/luci-app-fchomo
-
-# 7. 开启编译 ccache 缓存，加速后续增量编译
-cat << 'EOF' >> .config
-CONFIG_CCACHE=y
-EOF
