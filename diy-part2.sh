@@ -22,5 +22,14 @@ export GOTOOLCHAIN=auto
 # 5. 拉取第三方整合插件源
 git clone --depth=1 https://github.com/kenzok8/small-package.git package/small-package
 
-# 6. 删除 small-package 里与官方冲突的 nftables 源码包
+# 6. 一键清理 small-package 中所有破坏编译系统的坏包与重复基础包
+rm -rf package/small-package/firewall
 rm -rf package/small-package/nftables
+rm -rf package/small-package/dnsmasq
+rm -rf package/small-package/luci-base
+rm -rf package/small-package/natmap
+rm -rf package/small-package/minieap
+rm -rf package/small-package/qbittorrent
+rm -rf package/small-package/tor
+rm -rf package/small-package/ua2f
+rm -rf package/small-package/luci-app-fchomo
