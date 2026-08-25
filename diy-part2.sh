@@ -1,14 +1,4 @@
 #!/bin/bash
-#
-# https://github.com/P3TERX/Actions-OpenWrt
-# File name: diy-part2.sh
-# Description: OpenWrt DIY script part 2 (After Update feeds)
-#
-# Copyright (c) 2019-2024 P3TERX <https://p3terx.com>
-#
-# This is free software, licensed under the MIT License.
-# See /LICENSE for more information.
-#
 
 # 1. 修改后台默认 IP 为 192.168.112.200
 sed -i 's/192.168.1.1/192.168.112.200/g' package/base-files/files/bin/config_generate
@@ -31,3 +21,6 @@ export GOTOOLCHAIN=auto
 
 # 5. 拉取第三方整合插件源
 git clone --depth=1 https://github.com/kenzok8/small-package.git package/small-package
+
+# 6. 删除 small-package 里与官方冲突的 nftables 源码包
+rm -rf package/small-package/nftables
