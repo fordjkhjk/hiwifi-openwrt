@@ -33,3 +33,7 @@ rm -rf package/small-package/qbittorrent
 rm -rf package/small-package/tor
 rm -rf package/small-package/ua2f
 rm -rf package/small-package/luci-app-fchomo
+
+# 7. 为后续快速编译准备 ccache 环境
+export CCACHE_DIR=$HOME/.ccache
+export CCACHE_MAXSIZE=2G
