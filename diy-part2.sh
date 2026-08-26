@@ -37,3 +37,10 @@ rm -rf package/small-package/luci-app-fchomo
 # 7. 为后续快速编译准备 ccache 环境
 export CCACHE_DIR=$HOME/.ccache
 export CCACHE_MAXSIZE=2G
+
+# 8. 调整打包规则：生成 factory.bin + sysupgrade.bin，剔除 initramfs-kernel.bin
+DEVICE_MK="target/linux/ramips/image/mt7621.mk"
+if [ -f "$DEVICE_MK" ]; then
+    sed -i '/define Device\/hiwifi_hc5962/,/endef/s/IMAGE_SIZE := .*/&\n  IMAGE\/factory.bin := $$(sysupgrade-2M-Device\/image-FILE)/' $DEVICE_MK
+    sed -i '/define Device\/hiwifi_hc5962/,/endef/s/IMAGES := .*/IMAGES := sysupgrade.bin factory.bin/' $DEVICE_MK
+fi
