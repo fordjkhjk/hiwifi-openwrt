@@ -54,5 +54,9 @@ if [ -f "$DEVICE_MK" ]; then
     sed -i '/define Device\/hiwifi_hc5962/,/endef/s|IMAGE/sysupgrade.bin := .*|&\n  IMAGE/factory.bin := $$(sysupgrade-extra-system)|' $DEVICE_MK
 fi
 
-# 4. 剔除 initramfs-kernel 镜像
-sed -i 's/CONFIG_TARGET_ROOTFS_INITRAMFS=y/# CONFIG_TARGET_ROOTFS_INITRAMFS is not set/' .config
+# 4. 彻底禁用 initramfs-kernel 镜像
+if [ -f ".config" ]; then
+    sed -i 's/CONFIG_TARGET_ROOTFS_INITRAMFS=y/# CONFIG_TARGET_ROOTFS_INITRAMFS is not set/' .config
+else
+    echo "# CONFIG_TARGET_ROOTFS_INITRAMFS is not set" >> .config
+fi
