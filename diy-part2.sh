@@ -21,7 +21,6 @@ export GOTOOLCHAIN=auto
 
 # 5. 拉取第三方整合插件源与自动升级插件源码
 git clone --depth=1 https://github.com/kenzok8/small-package.git package/small-package
-git clone --depth=1 https://github.com/Hyy2001X/luci-app-autoupdate.git package/luci-app-autoupdate
 
 # 6. 一键清理 small-package 中所有破坏编译系统的坏包与重复基础包
 rm -rf package/small-package/firewall
