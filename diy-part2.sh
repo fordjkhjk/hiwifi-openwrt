@@ -38,9 +38,21 @@ rm -rf package/small-package/luci-app-fchomo
 export CCACHE_DIR=$HOME/.ccache
 export CCACHE_MAXSIZE=2G
 
-# 8. 调整打包规则：生成 factory.bin + sysupgrade.bin，剔除 initramfs-kernel.bin
+# =========================================================
+# 调整极路由 4 增强版 (HC5962) 打包规则与 Flash 容量限制
+# =========================================================
 DEVICE_MK="target/linux/ramips/image/mt7621.mk"
+
 if [ -f "$DEVICE_MK" ]; then
-    sed -i '/define Device\/hiwifi_hc5962/,/endef/s/IMAGE_SIZE := .*/&\n  IMAGE\/factory.bin := $$(sysupgrade-2M-Device\/image-FILE)/' $DEVICE_MK
+    # 1. 修改 IMAGE_SIZE 限制为 112MB (114688k)，解锁 128MB Flash 真实实力
+    sed -i '/define Device\/hiwifi_hc5962/,/endef/s/IMAGE_SIZE := .*/IMAGE_SIZE := 114688k/' $DEVICE_MK
+
+    # 2. 确保 IMAGES 包含 sysupgrade.bin 和 factory.bin
     sed -i '/define Device\/hiwifi_hc5962/,/endef/s/IMAGES := .*/IMAGES := sysupgrade.bin factory.bin/' $DEVICE_MK
+
+    # 3. 追加 Breed 适用的 factory.bin 打包规则
+    sed -i '/define Device\/hiwifi_hc5962/,/endef/s|IMAGE/sysupgrade.bin := .*|&\n  IMAGE/factory.bin := $$(sysupgrade-extra-system)|' $DEVICE_MK
 fi
+
+# 4. 剔除 initramfs-kernel 镜像
+sed -i 's/CONFIG_TARGET_ROOTFS_INITRAMFS=y/# CONFIG_TARGET_ROOTFS_INITRAMFS is not set/' .config
